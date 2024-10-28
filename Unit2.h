@@ -8,6 +8,8 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
 #include <Vcl.ComCtrls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Imaging.pngimage.hpp>
 //---------------------------------------------------------------------------
 class TForm2 : public TForm
 {
@@ -35,6 +37,8 @@ __published:	// IDE-managed Components
 	TMemo *Memo5;
 	TMemo *Memo6;
 	TMemo *MemoClave;
+	TImage *Image1;
+	TLabel *Label7;
 	void __fastcall Button3Click(TObject *Sender);
 	void __fastcall Button4Click(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);

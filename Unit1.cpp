@@ -10,13 +10,13 @@ CVigenere::CVigenere(const std::wstring& clave) : clave(clave) {
 // Inicializa el alfabeto español con Ñ y construye la tabla de Vigenère
 void CVigenere::inicializarAlfabeto() {
     alfabeto = L"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";  // Alfabeto con Ñ
-    tamanoAlfabeto = alfabeto.size();  // Debería ser 27
+	tamanoAlfabeto = alfabeto.size();  // Debería ser 27
 
     // Construir la tabla de Vigenère
     tablaVigenere.resize(tamanoAlfabeto, std::vector<wchar_t>(tamanoAlfabeto));
     for (size_t i = 0; i < tamanoAlfabeto; ++i) {
         for (size_t j = 0; j < tamanoAlfabeto; ++j) {
-            tablaVigenere[i][j] = alfabeto[(i + j) % tamanoAlfabeto];
+			tablaVigenere[i][j] = alfabeto[(i + j) % tamanoAlfabeto];
         }
     }
 }
@@ -57,7 +57,7 @@ std::wstring CVigenere::encrypt(const std::wstring& texto) {
             resultado += c;  // Mantiene caracteres no alfabéticos sin cifrar
         }
     }
-    return resultado;
+	return resultado;
 }
 
 // Descifra el texto utilizando la clave con la fórmula de Vigenère
@@ -66,14 +66,14 @@ std::wstring CVigenere::decrypt(const std::wstring& texto) {
     size_t longitudClave = clave.length();
 
     for (size_t i = 0, j = 0; i < texto.length(); ++i) {
-        wchar_t c = texto[i];
+		wchar_t c = texto[i];
         if (esLetraEspanola(c)) {
             size_t indiceCifrado = obtenerIndice(c);
             size_t indiceClave = obtenerIndice(clave[j % longitudClave]);
 
-            // Fórmula del descifrado: (C_i - K_i + N) % N
+			// Fórmula del descifrado: (C_i - K_i + N) % N
             size_t indiceOriginal = (indiceCifrado + tamanoAlfabeto - indiceClave) % tamanoAlfabeto;
-            wchar_t caracterOriginal = obtenerCaracter(indiceOriginal);
+			wchar_t caracterOriginal = obtenerCaracter(indiceOriginal);
 
             resultado += caracterOriginal;
             j++;  // Avanza en la clave solo si se descifra una letra
