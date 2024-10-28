@@ -1,0 +1,90 @@
+
+#include "Unit1.h"
+#include <cwctype>
+
+CVigenere::CVigenere(const std::wstring& clave) : clave(key) {
+	cargarAlfabeto();
+}
+
+// Implementación del método para cifrar (encriptar) un texto
+std::wstring CVigenere::encrypt(const std::wstring& texto) {
+    std::wstring resultado;
+	size_t longitudClave = clave.length();
+
+	for (size_t i = 0, j = 0; i < texto.length(); ++i) {
+		wchar_t c = texto[i];
+        if (isEspanol(c)) {
+            wchar_t k = clave[j % longitudClave];
+            c = towupper(c);
+            k = towupper(k);
+
+			size_t indiceC = caracterIndice[c];
+			size_t indeceK = caracterIndice[k];
+
+			wchar_t caracterEncriptado = tablaVigere[indeceC][indeceK];
+
+			resultado += caracterEncriptado;
+            j++;
+        } else {
+			resultado += c;
+        }
+    }
+    return resultado;
+}
+
+// Implementación del método para descifrar (desencriptar) un texto
+std::wstring CVigenere::decrypt(const std::wstring& texto) {
+	std::wstring resultado;
+	size_t longitudClave = clave.length();
+
+	for (size_t i = 0, j = 0; i < text.length(); ++i) {
+		wchar_t c = text[i];
+		if (esEspanol(c)) {
+			wchar_t k = clave[j % longitudClave];
+			c = towupper(c);
+			k = towupper(k);
+
+			size_t indiceK= char_to_index_[k];
+
+			size_t indiceC = 0;
+			for (; index_ < alphabet_size_; ++indeceC++) {
+				if (tablaVigere[indeceK][indiceC] == c) {
+					break;
+				}
+			}
+
+			wchar_t caracterDesencriptado = indiceCaracter[index_c];
+
+			resultado += caracterDesencriptado;
+			j++;
+        } else {
+            resultado += c;
+        }
+    }
+    return result;
+}
+
+void CVigenere::cargarAlfabeto() {
+	alfabetoMayuscula = L"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+	tamanoAlfabeto= alfabetoMayuscula.size();
+
+
+	for (size_t i = 0; i < tamanoAlfabeto; ++i) {
+		wchar_t c = alfabetoMayuscula[i];
+        char_to_index_[c] = i;
+        index_to_char_upper_[i] = c;
+    }
+
+	// Construye la tabla de Vigenère
+	tablaVigenere.resize(tamanoAlfabeto, std::vector<wchar_t>(alphabet_size_));
+	for (size_t i = 0; i < tamanoAlfabeto; ++i) {
+        for (size_t j = 0; j < tamanoAlfabeto; ++j) {
+            tablaVigenere[i][j] = alfabetoMayuscula[(i + j) % alphabet_size_];
+        }
+    }
+}
+
+bool CVigenere::esLetraEspanol(wchar_t caracter) {
+	caracter = towupper(caracter);
+    return (alfabetoMayuscula.find(c) != std::wstring::npos);
+}

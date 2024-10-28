@@ -19,9 +19,8 @@ object Form2: TForm2
     ActivePage = Vigenere
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 32
-    ExplicitTop = -120
-    ExplicitWidth = 734
+    ExplicitWidth = 1102
+    ExplicitHeight = 535
     object Cesar: TTabSheet
       Caption = 'Cesar'
       object Label1: TLabel

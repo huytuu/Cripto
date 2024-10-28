@@ -44,9 +44,8 @@ std::wstring CVigenere::decrypt(const std::wstring& text) {
             c = towupper(c);
             k = towupper(k);
 
-            size_t index_k = char_to_index_[k];
+			size_t index_k = char_to_index_[k];
 
-            // Encontrar el índice de la letra original
             size_t index_c = 0;
             for (; index_c < alphabet_size_; ++index_c) {
                 if (vigenere_table_[index_k][index_c] == c) {
