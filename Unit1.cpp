@@ -2,90 +2,85 @@
 #include "Unit1.h"
 #include <cwctype>
 
-CVigenere::CVigenere(const std::wstring& key) : key_(key) {
-    initializeAlphabet();
+// Constructor: Inicializa la clave y el alfabeto
+CVigenere::CVigenere(const std::wstring& clave) : clave(clave) {
+    inicializarAlfabeto();
 }
 
-// Implementación del método para cifrar (encriptar) un texto
-std::wstring CVigenere::encrypt(const std::wstring& text) {
-    std::wstring result;
-	size_t key_length = key_.length();
+// Inicializa el alfabeto español con Ñ y construye la tabla de Vigenère
+void CVigenere::inicializarAlfabeto() {
+    alfabeto = L"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";  // Alfabeto con Ñ
+    tamanoAlfabeto = alfabeto.size();  // Debería ser 27
 
-    for (size_t i = 0, j = 0; i < text.length(); ++i) {
-        wchar_t c = text[i];
-        if (isSpanishLetter(c)) {
-            wchar_t k = key_[j % key_length];
-            c = towupper(c);
-            k = towupper(k);
+    // Construir la tabla de Vigenère
+    tablaVigenere.resize(tamanoAlfabeto, std::vector<wchar_t>(tamanoAlfabeto));
+    for (size_t i = 0; i < tamanoAlfabeto; ++i) {
+        for (size_t j = 0; j < tamanoAlfabeto; ++j) {
+            tablaVigenere[i][j] = alfabeto[(i + j) % tamanoAlfabeto];
+        }
+    }
+}
 
-            size_t index_c = char_to_index_[c];
-            size_t index_k = char_to_index_[k];
+// Devuelve el índice de una letra en el alfabeto
+size_t CVigenere::obtenerIndice(wchar_t c) {
+    return alfabeto.find(towupper(c));  // Convierte a mayúscula para comparar
+}
 
-            wchar_t encrypted_char = vigenere_table_[index_c][index_k];
+// Devuelve el carácter correspondiente a un índice del alfabeto
+wchar_t CVigenere::obtenerCaracter(size_t indice) {
+    return alfabeto[indice % tamanoAlfabeto];
+}
 
-            result += encrypted_char;
-            j++;
+// Verifica si el carácter es una letra válida del alfabeto español
+bool CVigenere::esLetraEspanola(wchar_t c) {
+    return alfabeto.find(towupper(c)) != std::wstring::npos;
+}
+
+// Cifra el texto utilizando la clave con la fórmula de Vigenère
+std::wstring CVigenere::encrypt(const std::wstring& texto) {
+    std::wstring resultado;
+    size_t longitudClave = clave.length();
+
+    for (size_t i = 0, j = 0; i < texto.length(); ++i) {
+        wchar_t c = texto[i];
+        if (esLetraEspanola(c)) {
+            size_t indiceTexto = obtenerIndice(c);
+            size_t indiceClave = obtenerIndice(clave[j % longitudClave]);
+
+            // Fórmula del cifrado: (M_i + K_i) % N
+            size_t indiceCifrado = (indiceTexto + indiceClave) % tamanoAlfabeto;
+            wchar_t caracterCifrado = obtenerCaracter(indiceCifrado);
+
+            resultado += caracterCifrado;
+            j++;  // Avanza en la clave solo si se cifra una letra
         } else {
-            result += c;
+            resultado += c;  // Mantiene caracteres no alfabéticos sin cifrar
         }
     }
-    return result;
+    return resultado;
 }
 
-// Implementación del método para descifrar (desencriptar) un texto
-std::wstring CVigenere::decrypt(const std::wstring& text) {
-    std::wstring result;
-    size_t key_length = key_.length();
+// Descifra el texto utilizando la clave con la fórmula de Vigenère
+std::wstring CVigenere::decrypt(const std::wstring& texto) {
+    std::wstring resultado;
+    size_t longitudClave = clave.length();
 
-    for (size_t i = 0, j = 0; i < text.length(); ++i) {
-        wchar_t c = text[i];
-        if (isSpanishLetter(c)) {
-            wchar_t k = key_[j % key_length];
-            c = towupper(c);
-            k = towupper(k);
+    for (size_t i = 0, j = 0; i < texto.length(); ++i) {
+        wchar_t c = texto[i];
+        if (esLetraEspanola(c)) {
+            size_t indiceCifrado = obtenerIndice(c);
+            size_t indiceClave = obtenerIndice(clave[j % longitudClave]);
 
-			size_t index_k = char_to_index_[k];
+            // Fórmula del descifrado: (C_i - K_i + N) % N
+            size_t indiceOriginal = (indiceCifrado + tamanoAlfabeto - indiceClave) % tamanoAlfabeto;
+            wchar_t caracterOriginal = obtenerCaracter(indiceOriginal);
 
-            size_t index_c = 0;
-            for (; index_c < alphabet_size_; ++index_c) {
-                if (vigenere_table_[index_k][index_c] == c) {
-                    break;
-                }
-            }
-
-            wchar_t decrypted_char = index_to_char_upper_[index_c];
-
-            result += decrypted_char;
-            j++;
+            resultado += caracterOriginal;
+            j++;  // Avanza en la clave solo si se descifra una letra
         } else {
-            result += c;
+            resultado += c;  // Mantiene caracteres no alfabéticos sin descifrar
         }
     }
-    return result;
+    return resultado;
 }
 
-void CVigenere::initializeAlphabet() {
-    // Inicializa el alfabeto con las letras mayúsculas españolas
-    alphabet_upper_ = L"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-    alphabet_size_ = alphabet_upper_.size(); // Debería ser 27
-
-    // Construye los mapas de caracteres a índices y viceversa
-    for (size_t i = 0; i < alphabet_size_; ++i) {
-        wchar_t c = alphabet_upper_[i];
-        char_to_index_[c] = i;
-        index_to_char_upper_[i] = c;
-    }
-
-    // Construye la tabla de Vigenère
-    vigenere_table_.resize(alphabet_size_, std::vector<wchar_t>(alphabet_size_));
-    for (size_t i = 0; i < alphabet_size_; ++i) {
-        for (size_t j = 0; j < alphabet_size_; ++j) {
-            vigenere_table_[i][j] = alphabet_upper_[(i + j) % alphabet_size_];
-        }
-    }
-}
-
-bool CVigenere::isSpanishLetter(wchar_t c) {
-    c = towupper(c);
-    return (alphabet_upper_.find(c) != std::wstring::npos);
-}

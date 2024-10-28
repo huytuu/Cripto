@@ -1,26 +1,24 @@
-#include <map>
 #include <vector>
+#include <string>
+#include <cwctype>  // Para towupper
 
 class CVigenere {
 
 public:
-    CVigenere(const std::wstring& key);
+    CVigenere(const std::wstring& clave);
 
-    std::wstring encrypt(const std::wstring& text);
-    std::wstring decrypt(const std::wstring& text);
+    std::wstring encrypt(const std::wstring& texto);
+    std::wstring decrypt(const std::wstring& texto);
 
 private:
-    std::wstring key_;
+    std::wstring clave;
+    std::wstring alfabeto;
+    size_t tamanoAlfabeto;
 
-    std::map<wchar_t, size_t> char_to_index_;
-    std::map<size_t, wchar_t> index_to_char_upper_;
+    std::vector<std::vector<wchar_t> > tablaVigenere;
 
-    std::wstring alphabet_upper_;
-    size_t alphabet_size_;
-
-    std::vector<std::vector<wchar_t> > vigenere_table_;
-
-    void initializeAlphabet();
-    bool isSpanishLetter(wchar_t c);
-
+    void inicializarAlfabeto();
+    size_t obtenerIndice(wchar_t c);
+    wchar_t obtenerCaracter(size_t indice);
+    bool esLetraEspanola(wchar_t c);
 };
