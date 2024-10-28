@@ -1,0 +1,7 @@
+*.exe
+*.obj
+*.cgl
+*.tds
+*.dll
+/Debug/
+/Release/
