@@ -1,4 +1,5 @@
-#include <map> // Cambia unordered_map por map
+#include <map>
+#include <vector>
 
 class CVigenere {
 
@@ -11,17 +12,15 @@ public:
 private:
     std::wstring key_;
 
-    // Cambia unordered_map a map
     std::map<wchar_t, size_t> char_to_index_;
     std::map<size_t, wchar_t> index_to_char_upper_;
-    std::map<size_t, wchar_t> index_to_char_lower_;
 
     std::wstring alphabet_upper_;
-    std::wstring alphabet_lower_;
     size_t alphabet_size_;
+
+    std::vector<std::vector<wchar_t> > vigenere_table_;
 
     void initializeAlphabet();
     bool isSpanishLetter(wchar_t c);
 
 };
-

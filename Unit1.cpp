@@ -1,61 +1,92 @@
-																				// Unit1.cpp
+
 #include "Unit1.h"
 #include <cwctype>
 
 CVigenere::CVigenere(const std::wstring& key) : key_(key) {
-	initializeAlphabet();
+    initializeAlphabet();
 }
 
 // Implementación del método para cifrar (encriptar) un texto
 std::wstring CVigenere::encrypt(const std::wstring& text) {
-	std::wstring result;
+    std::wstring result;
 	size_t key_length = key_.length();
-	for (size_t i = 0, j = 0; i < text.length(); ++i) {
-		wchar_t c = text[i];
-		if (isSpanishLetter(c)) {
-			wchar_t k = key_[j % key_length];
-			if (iswupper(c)) {
-				c = ((c - L'A') + (towupper(k) - L'A')) % alphabet_size_ + L'A';
-			} else {
-				c = ((c - L'a') + (towlower(k) - L'a')) % alphabet_size_ + L'a';
-			}
-			j++;
-		}
-		result += c;
-	}
-	return result;
-}
-						  //PEGAR AQUI DEENCRIPTAR
-std::wstring CVigenere::decrypt(const std::wstring& text) {
-	std::wstring result;
-	size_t key_length = key_.length();
-	for (size_t i = 0, j = 0; i < text.length(); ++i) {
-		wchar_t c = text[i];
-		if (isSpanishLetter(c)) {
-			wchar_t k = key_[j % key_length];
-			 if (iswupper(c)) {
-				 c = ((c - L'A') + (towupper(k) - L'A')) % alphabet_size_ + L'A';
-			 } else {
-				 c = ((c - L'a') + (towlower(k) - L'a')) % alphabet_size_ + L'a';
-			 }
-			j++;
-		}
-		result += c;
-	}
-	return result;
+
+    for (size_t i = 0, j = 0; i < text.length(); ++i) {
+        wchar_t c = text[i];
+        if (isSpanishLetter(c)) {
+            wchar_t k = key_[j % key_length];
+            c = towupper(c);
+            k = towupper(k);
+
+            size_t index_c = char_to_index_[c];
+            size_t index_k = char_to_index_[k];
+
+            wchar_t encrypted_char = vigenere_table_[index_c][index_k];
+
+            result += encrypted_char;
+            j++;
+        } else {
+            result += c;
+        }
+    }
+    return result;
 }
 
+// Implementación del método para descifrar (desencriptar) un texto
+std::wstring CVigenere::decrypt(const std::wstring& text) {
+    std::wstring result;
+    size_t key_length = key_.length();
+
+    for (size_t i = 0, j = 0; i < text.length(); ++i) {
+        wchar_t c = text[i];
+        if (isSpanishLetter(c)) {
+            wchar_t k = key_[j % key_length];
+            c = towupper(c);
+            k = towupper(k);
+
+            size_t index_k = char_to_index_[k];
+
+            // Encontrar el índice de la letra original
+            size_t index_c = 0;
+            for (; index_c < alphabet_size_; ++index_c) {
+                if (vigenere_table_[index_k][index_c] == c) {
+                    break;
+                }
+            }
+
+            wchar_t decrypted_char = index_to_char_upper_[index_c];
+
+            result += decrypted_char;
+            j++;
+        } else {
+            result += c;
+        }
+    }
+    return result;
+}
 
 void CVigenere::initializeAlphabet() {
-	// Inicializa los alfabetos y mapeos necesarios
-	alphabet_upper_ = L"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-	alphabet_lower_ = L"abcdefghijklmnñopqrstuvwxyz";
-	alphabet_size_ = alphabet_upper_.size();
-	// Completa los mapeos de letras a índices
+    // Inicializa el alfabeto con las letras mayúsculas españolas
+    alphabet_upper_ = L"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+    alphabet_size_ = alphabet_upper_.size(); // Debería ser 27
+
+    // Construye los mapas de caracteres a índices y viceversa
+    for (size_t i = 0; i < alphabet_size_; ++i) {
+        wchar_t c = alphabet_upper_[i];
+        char_to_index_[c] = i;
+        index_to_char_upper_[i] = c;
+    }
+
+    // Construye la tabla de Vigenère
+    vigenere_table_.resize(alphabet_size_, std::vector<wchar_t>(alphabet_size_));
+    for (size_t i = 0; i < alphabet_size_; ++i) {
+        for (size_t j = 0; j < alphabet_size_; ++j) {
+            vigenere_table_[i][j] = alphabet_upper_[(i + j) % alphabet_size_];
+        }
+    }
 }
 
 bool CVigenere::isSpanishLetter(wchar_t c) {
-	// Verifica si el carácter está en el alfabeto español
-	return (alphabet_upper_.find(c) != std::wstring::npos) || (alphabet_lower_.find(c) != std::wstring::npos);
+    c = towupper(c);
+    return (alphabet_upper_.find(c) != std::wstring::npos);
 }
-

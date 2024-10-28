@@ -3,23 +3,25 @@ object Form2: TForm2
   Top = 0
   Caption = 'Form2'
   ClientHeight = 543
-  ClientWidth = 734
+  ClientWidth = 1104
   Color = clGradientActiveCaption
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
   TextHeight = 13
   object Main: TPageControl
     Left = 0
-    Top = 8
-    Width = 657
-    Height = 481
-    ActivePage = Cesar
+    Top = 0
+    Width = 1104
+    Height = 543
+    ActivePage = Vigenere
+    Align = alClient
     TabOrder = 0
+    ExplicitLeft = 32
+    ExplicitTop = -120
+    ExplicitWidth = 734
     object Cesar: TTabSheet
       Caption = 'Cesar'
       object Label1: TLabel
@@ -110,15 +112,17 @@ object Form2: TForm2
       object MemoInput: TMemo
         Left = 344
         Top = 22
-        Width = 321
+        Width = 385
         Height = 139
+        Align = alCustom
         TabOrder = 2
       end
       object MemoOutput: TMemo
         Left = 344
         Top = 176
-        Width = 321
+        Width = 385
         Height = 137
+        Alignment = taRightJustify
         TabOrder = 3
       end
       object MemoClave: TMemo
