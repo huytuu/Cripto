@@ -1,0 +1,194 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 543
+  ClientWidth = 734
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Main: TPageControl
+    Left = 8
+    Top = 8
+    Width = 718
+    Height = 527
+    ActivePage = Vigenere
+    TabOrder = 0
+    object Cesar: TTabSheet
+      Caption = 'Cesar'
+      ExplicitLeft = 0
+      object Label1: TLabel
+        Left = 256
+        Top = 56
+        Width = 38
+        Height = 13
+        Caption = 'Entrada'
+      end
+      object Label2: TLabel
+        Left = 256
+        Top = 120
+        Width = 28
+        Height = 13
+        Caption = 'Salida'
+      end
+      object Button1: TButton
+        Left = 48
+        Top = 32
+        Width = 75
+        Height = 25
+        Caption = 'Encriptar'
+        TabOrder = 0
+      end
+      object Button2: TButton
+        Left = 48
+        Top = 96
+        Width = 75
+        Height = 25
+        Caption = 'Desencriptar'
+        TabOrder = 1
+      end
+      object Memo1: TMemo
+        Left = 376
+        Top = 53
+        Width = 185
+        Height = 89
+        Lines.Strings = (
+          'Memo1')
+        TabOrder = 2
+      end
+      object Memo2: TMemo
+        Left = 360
+        Top = 200
+        Width = 185
+        Height = 89
+        Lines.Strings = (
+          'Memo2')
+        TabOrder = 3
+      end
+    end
+    object Vigenere: TTabSheet
+      Caption = 'Vigenere'
+      ImageIndex = 1
+      ExplicitLeft = -12
+      ExplicitTop = 32
+      object Label3: TLabel
+        Left = 216
+        Top = 72
+        Width = 38
+        Height = 13
+        Caption = 'entrada'
+      end
+      object Label4: TLabel
+        Left = 256
+        Top = 160
+        Width = 27
+        Height = 13
+        Caption = 'salida'
+      end
+      object Button3: TButton
+        Left = 80
+        Top = 48
+        Width = 75
+        Height = 25
+        Caption = 'Encriptar'
+        TabOrder = 0
+        OnClick = Button3Click
+      end
+      object Button4: TButton
+        Left = 112
+        Top = 144
+        Width = 75
+        Height = 25
+        Caption = 'Desencriptar'
+        TabOrder = 1
+        OnClick = Button4Click
+      end
+      object MemoInput: TMemo
+        Left = 352
+        Top = 36
+        Width = 185
+        Height = 89
+        Lines.Strings = (
+          'MemoInput')
+        TabOrder = 2
+      end
+      object MemoOutput: TMemo
+        Left = 344
+        Top = 176
+        Width = 185
+        Height = 89
+        Lines.Strings = (
+          'MemoOutput')
+        TabOrder = 3
+      end
+      object MemoClave: TMemo
+        Left = 98
+        Top = 208
+        Width = 185
+        Height = 25
+        Lines.Strings = (
+          'MemoClave')
+        TabOrder = 4
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'Transposicion Por Columnas'
+      ImageIndex = 2
+      ExplicitLeft = 0
+      object Label5: TLabel
+        Left = 242
+        Top = 232
+        Width = 28
+        Height = 13
+        Caption = 'Salida'
+      end
+      object Label6: TLabel
+        Left = 232
+        Top = 107
+        Width = 38
+        Height = 13
+        Caption = 'Entrada'
+      end
+      object Button5: TButton
+        Left = 40
+        Top = 80
+        Width = 75
+        Height = 25
+        Caption = 'Encriptar'
+        TabOrder = 0
+      end
+      object Button6: TButton
+        Left = 40
+        Top = 144
+        Width = 75
+        Height = 33
+        Caption = 'Desencriptar'
+        TabOrder = 1
+      end
+      object Memo5: TMemo
+        Left = 352
+        Top = 82
+        Width = 185
+        Height = 89
+        Lines.Strings = (
+          'Memo5')
+        TabOrder = 2
+      end
+      object Memo6: TMemo
+        Left = 352
+        Top = 208
+        Width = 185
+        Height = 89
+        Lines.Strings = (
+          'Memo6')
+        TabOrder = 3
+      end
+    end
+  end
+end

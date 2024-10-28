@@ -1,0 +1,43 @@
+//---------------------------------------------------------------------------
+
+#ifndef Unit1H
+#define Unit1H
+//---------------------------------------------------------------------------
+/*
+#include <string>
+#include <unordered_map>
+#include <locale>
+  */
+class CVigenere {
+
+public:
+    // Constructor que inicializa la clave
+    CVigenere(const std::wstring& key);
+
+    // Métodos para cifrar y descifrar
+    std::wstring encrypt(const std::wstring& text);
+	std::wstring decrypt(const std::wstring& text);
+
+private:
+	std::wstring key_;
+
+	// Mapeos de caracteres a índices y viceversa
+	std::unordered_map<wchar_t, size_t> char_to_index_;
+    std::unordered_map<size_t, wchar_t> index_to_char_upper_;
+	std::unordered_map<size_t, wchar_t> index_to_char_lower_;
+
+	// Alfabeto español
+	std::wstring alphabet_upper_;
+	std::wstring alphabet_lower_;
+    size_t alphabet_size_;
+
+    // Métodos auxiliares
+    void initializeAlphabet();
+	bool isSpanishLetter(wchar_t c);
+
+};
+
+
+
+
+#endif

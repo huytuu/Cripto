@@ -1,0 +1,34 @@
+                                                                                // Unit1.cpp
+#include "Unit1.h"
+
+CVigenere::CVigenere(const std::wstring& key) : key_(key) {
+    initializeAlphabet();
+}
+
+std::wstring CVigenere::encrypt(const std::wstring& text) {
+    // Implementación básica de cifrado (deberás completarla)
+    std::wstring encrypted_text;
+    // Lógica de encriptado
+    return encrypted_text;
+}
+
+std::wstring CVigenere::decrypt(const std::wstring& text) {
+    // Implementación básica de descifrado (deberás completarla)
+    std::wstring decrypted_text;
+    // Lógica de desencriptado
+    return decrypted_text;
+}
+
+void CVigenere::initializeAlphabet() {
+    // Inicializa los alfabetos y mapeos necesarios
+    alphabet_upper_ = L"ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+    alphabet_lower_ = L"abcdefghijklmnñopqrstuvwxyz";
+    alphabet_size_ = alphabet_upper_.size();
+    // Completa los mapeos de letras a índices
+}
+
+bool CVigenere::isSpanishLetter(wchar_t c) {
+    // Verifica si el carácter está en el alfabeto español
+    return (alphabet_upper_.find(c) != std::wstring::npos) || (alphabet_lower_.find(c) != std::wstring::npos);
+}
+
